@@ -5,10 +5,29 @@ import Container from '@material-ui/core/Container';
 // import SendIcon from '@material-ui/icons/Send';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  btn: {
+    fontSize: 60,
+    backgroundColor: 'violet',
+    '&:hover': {
+      backgroundColor: 'lightblue'
+    }
+  },
+  title: {
+    textDecoration: 'underline',
+    marginBottom: 20
+  }
+});
+
 export default function Create() {
+  const classes = useStyles();
+
   return (
     <Container>
       <Typography
+        className={classes.title}
         variant="h6"
         //sets it to an h2 rather than an h6 -> although it will still look the same
         component="h2"
@@ -19,6 +38,7 @@ export default function Create() {
       </Typography>
 
       <Button
+        className={classes.btn}
         onClick={() => console.log('you clicked me')}
         type="submit"
         color="secondary"
@@ -28,16 +48,9 @@ export default function Create() {
       >
         Submit
       </Button>
-
-
     </Container>
   );
 }
-
-
-
-
-
 
 //Buttons
 // import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -54,9 +67,8 @@ export default function Create() {
       </ButtonGroup> */
 }
 
-
-
-{/* ICONS
+{
+  /* ICONS
   import AcUnitOutlinedIcon from '@material-ui/icons/AcUnitOutlined';
       <br />
       <AcUnitOutlinedIcon />
@@ -64,4 +76,5 @@ export default function Create() {
       <AcUnitOutlinedIcon color="secondary" fontSize="small"/>
       <AcUnitOutlinedIcon color="action" fontSize="small"/>
       <AcUnitOutlinedIcon color="error" fontSize="small"/>
-      <AcUnitOutlinedIcon color="disabled" fontSize="small"/> */}
+      <AcUnitOutlinedIcon color="disabled" fontSize="small"/> */
+}
