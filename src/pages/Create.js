@@ -5,8 +5,12 @@ import Container from '@material-ui/core/Container';
 // import SendIcon from '@material-ui/icons/Send';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
-import { makeStyles } from '@material-ui/core';
+import { FormControlLabel, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   field: {
@@ -22,6 +26,7 @@ export default function Create() {
   const [details, setDetails] = useState('');
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
+  const [category, setCategory] = useState('todos')
 
   const handleSubmit = (e) => {
     e.preventDefault(); //prevents refresh of submit
@@ -32,14 +37,15 @@ export default function Create() {
 
     //if input is empty
     if (title == '') {
-      setTitleError(true)
+      setTitleError(true);
     }
     if (details == '') {
-      setDetailsError(true)
+      setDetailsError(true);
     }
 
     if (title && details) {
-      console.log(title, details);
+      //output values
+      console.log(title, details, category);
     }
   };
 
@@ -80,6 +86,22 @@ export default function Create() {
           required
           error={detailsError} //shows red border //false to being with
         />
+
+
+          {/* RadioGroup = so user can only select one of the options */}
+          {/* FormControlLabel value = {category} -> piece of state */}
+          {/* best to embed radio buttons in FormControlLabel rather than just <Radio />*/}
+
+          <FormControl className={classes.field}>
+            <FormLabel>Note Category</FormLabel>
+            <RadioGroup value={category} onChange={(e) => setCategory(e.target.value)}>
+              <FormControlLabel value="money" control={<Radio />} label="Money"/>
+              <FormControlLabel value="todos" control={<Radio />} label="Todos"/>
+              <FormControlLabel value="reminders" control={<Radio />} label="Reminders"/>
+              <FormControlLabel value="work" control={<Radio />} label="Work"/>
+            </RadioGroup>
+          </FormControl>
+
 
         <Button
           type="submit"
