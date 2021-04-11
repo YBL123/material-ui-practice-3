@@ -1,18 +1,19 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core'
-import Drawer from '@material-ui/core/Drawer'
-import Typography from '@material-ui/core/Typography'
-import { useHistory, useLocation } from 'react-router-dom'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import { AddCircleOutlineOutlined, SubjectOutlined } from '@material-ui/icons'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import { format } from 'date-fns'
+import React from 'react';
+import { makeStyles } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
+import { useHistory, useLocation } from 'react-router-dom';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { AddCircleOutlineOutlined, SubjectOutlined } from '@material-ui/icons';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import { format } from 'date-fns';
+import Avatar from '@material-ui/core/Avatar';
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => {
       width: drawerWidth,
     },
     active: {
-      background: '#f4f4f4'
+      background: '#f4f4f4',
     },
     title: {
       padding: theme.spacing(2),
@@ -40,36 +41,40 @@ const useStyles = makeStyles((theme) => {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    toolbar: theme.mixins.toolbar,
     date: {
-      flexGrow: 1
+      // will take up all horizontal space possible
+      flexGrow: 1,
     },
-    toolbar: theme.mixins.toolbar
+    avatar: {
+      marginLeft: theme.spacing(2)
+    }
   }
-})
+});
 
 export default function Layout({ children }) {
-  const classes = useStyles()
-  const history = useHistory()
-  const location = useLocation()
+  const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
 
   const menuItems = [
-    { 
-      text: 'My Notes', 
-      icon: <SubjectOutlined color="secondary" />, 
-      path: '/' 
+    {
+      text: 'My Notes',
+      icon: <SubjectOutlined color="secondary" />,
+      path: '/',
     },
-    { 
-      text: 'Create Note', 
-      icon: <AddCircleOutlineOutlined color="secondary" />, 
-      path: '/create' 
+    {
+      text: 'Create Note',
+      icon: <AddCircleOutlineOutlined color="secondary" />,
+      path: '/create',
     },
   ];
 
   return (
     <div className={classes.root}>
       {/* app bar */}
-      <AppBar 
-        position="fixed" 
+      <AppBar
+        position="fixed"
         className={classes.appBar}
         elevation={0}
         color="primary"
@@ -79,6 +84,10 @@ export default function Layout({ children }) {
             Today is the {format(new Date(), 'do MMMM Y')}
           </Typography>
           <Typography>Yarden</Typography>
+          <Avatar
+            className={classes.avatar}
+            src="https://lwlies.com/wp-content/uploads/2017/04/avatar-2009-1108x0-c-default.jpg" 
+          />
         </Toolbar>
       </AppBar>
 
@@ -98,9 +107,9 @@ export default function Layout({ children }) {
         {/* links/list section */}
         <List>
           {menuItems.map((item) => (
-            <ListItem 
-              button 
-              key={item.text} 
+            <ListItem
+              button
+              key={item.text}
               onClick={() => history.push(item.path)}
               className={location.pathname == item.path ? classes.active : null}
             >
@@ -109,14 +118,13 @@ export default function Layout({ children }) {
             </ListItem>
           ))}
         </List>
-        
       </Drawer>
 
       {/* main content */}
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-        { children }
+        {children}
       </div>
     </div>
-  )
+  );
 }
