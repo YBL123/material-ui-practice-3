@@ -1,18 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 // import SendIcon from '@material-ui/icons/Send';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import TextField from '@material-ui/core/TextField';
 
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
-
+  field: {
+    marginTop: 20,
+    marginBottom: 20,
+    display: 'block',
+  },
 });
 
 export default function Create() {
   const classes = useStyles();
+  const [title, setTitle] = useState('');
+  const [details, setDetails] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [detailsError, setDetailsError] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); //prevents refresh of submit
+
+    //every time we submit the form updating value to false -> only setting to true if invalid
+    setTitleError(false);
+    setDetailsError(false);
+
+    //if input is empty
+    if (title == '') {
+      setTitleError(true)
+    }
+    if (details == '') {
+      setDetailsError(true)
+    }
+
+    if (title && details) {
+      console.log(title, details);
+    }
+  };
 
   return (
     <Container>
@@ -26,16 +55,42 @@ export default function Create() {
         Create A New Note
       </Typography>
 
-      <Button
-        onClick={() => console.log('you clicked me')}
-        type="submit"
-        color="secondary"
-        variant="contained"
-        // startIcon={<SendIcon />}
-        endIcon={<KeyboardArrowRightIcon />}
-      >
-        Submit
-      </Button>
+      {/* noValidate = says to browser not to use inbuilt validation messages */}
+      {/* autoComplete="off" = doesn't try to autocomplete when you start to type*/}
+      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          onChange={(e) => setTitle(e.target.value)}
+          className={classes.field}
+          label="Note Title"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          required //adds an astrix -> not a form of validation
+          error={titleError} //shows red border //false to being with
+        />
+        <TextField
+          onChange={(e) => setDetails(e.target.value)}
+          className={classes.field}
+          label="Details"
+          variant="outlined"
+          color="secondary"
+          multiline
+          rows={4} // 4 rows of text inside TextField
+          fullWidth
+          required
+          error={detailsError} //shows red border //false to being with
+        />
+
+        <Button
+          type="submit"
+          color="secondary"
+          variant="contained"
+          // startIcon={<SendIcon />}
+          endIcon={<KeyboardArrowRightIcon />}
+        >
+          Submit
+        </Button>
+      </form>
     </Container>
   );
 }
